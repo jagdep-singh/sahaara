@@ -1,5 +1,6 @@
 import { LangToggle } from "@/components/lang-toggle"
 import { Button } from "@/components/ui/button"
+import { getDict } from "@/i18n"
 import {
   Card,
   CardContent,
@@ -34,14 +35,20 @@ export default async function KitPage({
 }) {
   const { lang: rawLang } = await params
   const lang = rawLang === "en" ? "en" : "hi"
+  const dict = getDict(lang)
 
   return (
-    <main
-      lang={lang}
-      className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 pt-6 pb-8"
-    >
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 pt-6 pb-8">
       <div className="flex justify-end">
-        <LangToggle lang={lang} path="/kit" />
+        <LangToggle
+          lang={lang}
+          path="/kit"
+          labels={{
+            hi: dict.common.lang.hi,
+            en: dict.common.lang.en,
+            aria: dict.common.language,
+          }}
+        />
       </div>
 
       <header className="flex flex-col gap-2">
@@ -198,6 +205,6 @@ export default async function KitPage({
           </CardFooter>
         </Card>
       </section>
-    </main>
+    </div>
   )
 }

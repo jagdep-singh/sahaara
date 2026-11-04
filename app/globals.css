@@ -58,9 +58,8 @@
   --font-body: var(--font-deva), var(--font-satoshi), system-ui, sans-serif;
 }
 
-:lang(en) {
+html:lang(en) {
   --font-body: var(--font-satoshi), var(--font-deva), system-ui, sans-serif;
-  font-family: var(--font-body);
 }
 
 @layer base {
