@@ -12,6 +12,8 @@
 /.next/
 /out/
 /build
+/AGENTS.md
+/help.md
 
 # generated
 /lib/generated/

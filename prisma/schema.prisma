@@ -1,0 +1,225 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  DONOR
+}
+
+enum Need {
+  PENSION
+  LIVELIHOOD
+  HEALTH
+  EDUCATION
+}
+
+enum ContentStatus {
+  DRAFT
+  APPROVED
+}
+
+enum ContentOrigin {
+  HUMAN
+  AI_DRAFT
+}
+
+enum DonationType {
+  ONE_TIME
+  MONTHLY
+}
+
+enum DonationStatus {
+  PENDING
+  PAID
+  FAILED
+  BLOCKED_FOREIGN
+}
+
+enum PlanStatus {
+  ACTIVE
+  PAUSED
+}
+
+enum CallbackStatus {
+  NEW
+  DONE
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String?
+  role         Role
+  createdAt    DateTime @default(now())
+  donor        Donor?
+  @@map("app_user")
+}
+
+model Scheme {
+  id            String    @id @default(cuid())
+  code          String    @unique            // SCH-014
+  slug          String    @unique
+  need          Need
+  districts     String[]                     // empty array = all districts
+  rules         Json                         // Rule[] (see lib/eligibility.ts)
+  sourceUrl     String
+  lastCheckedAt DateTime
+  isIllustrative Boolean  @default(true)
+  publishedAt   DateTime?                    // null = hidden from public
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  contents      SchemeContent[]
+  @@map("scheme")
+}
+
+model SchemeContent {
+  id           String        @id @default(cuid())
+  schemeId     String
+  scheme       Scheme        @relation(fields: [schemeId], references: [id], onDelete: Cascade)
+  lang         String                         // 'hi' | 'en'
+  title        String
+  benefit      String
+  whoCanApply  String
+  documents    String[]
+  howToApply   String
+  status       ContentStatus @default(DRAFT)
+  origin       ContentOrigin @default(HUMAN)
+  aiWarnings   Json?                          // string[] from ai-check
+  approvedById String?
+  approvedAt   DateTime?
+  updatedAt    DateTime      @updatedAt
+  @@unique([schemeId, lang])
+  @@map("scheme_content")
+}
+
+model HelpCentre {
+  id       String @id @default(cuid())
+  district String
+  name     String
+  address  String
+  phone    String
+  @@map("help_centre")
+}
+
+model Donor {
+  id             String     @id @default(cuid())
+  userId         String?    @unique
+  user           User?      @relation(fields: [userId], references: [id])
+  name           String
+  email          String     @unique
+  phone          String?
+  pan            String
+  consentAt      DateTime
+  consentVersion String
+  donations      Donation[]
+  plans          RecurringPlan[]
+  @@map("donor")
+}
+
+model Campaign {
+  id           String     @id @default(cuid())
+  slug         String     @unique
+  titleHi      String
+  titleEn      String
+  descriptionHi String?
+  descriptionEn String?
+  isActive     Boolean    @default(true)
+  donations    Donation[]
+  @@map("campaign")
+}
+
+model Donation {
+  id             String         @id @default(cuid())
+  donorId        String
+  donor          Donor          @relation(fields: [donorId], references: [id])
+  campaignId     String?
+  campaign       Campaign?      @relation(fields: [campaignId], references: [id])
+  amountPaise    Int
+  type           DonationType
+  status         DonationStatus @default(PENDING)
+  idempotencyKey String         @unique
+  paymentRef     String?        @unique
+  cardCountry    String?
+  createdAt      DateTime       @default(now())
+  paidAt         DateTime?
+  receipt        Receipt?
+  @@map("donation")
+}
+
+model Receipt {
+  id          String   @id @default(cuid())
+  donationId  String   @unique
+  donation    Donation @relation(fields: [donationId], references: [id])
+  fy          String                         // '2026-27'
+  seq         Int
+  number      String   @unique               // '80G/2026-27/000123'
+  publicToken String   @unique               // random, 32+ chars, used in URLs
+  // immutable snapshot: later edits to donor never change an issued certificate
+  donorName     String
+  donorPan      String
+  amountPaise   Int
+  campaignTitle String?
+  issuedAt      DateTime @default(now())
+  @@unique([fy, seq])
+  @@map("receipt")
+}
+
+model ReceiptCounter {
+  fy      String @id
+  lastSeq Int    @map("last_seq")
+  @@map("receipt_counter")
+}
+
+model RecurringPlan {
+  id          String     @id @default(cuid())
+  donorId     String
+  donor       Donor      @relation(fields: [donorId], references: [id])
+  amountPaise Int
+  dayOfMonth  Int
+  status      PlanStatus @default(ACTIVE)
+  nextRunOn   DateTime
+  createdAt   DateTime   @default(now())
+  @@map("recurring_plan")
+}
+
+model WebhookEvent {
+  id         String   @id                    // eventId from the gateway
+  receivedAt DateTime @default(now())
+  @@map("webhook_event")
+}
+
+model CallbackRequest {
+  id          String         @id @default(cuid())
+  name        String
+  phone       String
+  district    String
+  schemeCodes String[]
+  consentAt   DateTime
+  status      CallbackStatus @default(NEW)
+  createdAt   DateTime       @default(now())
+  @@map("callback_request")
+}
+
+model FinderUse {                              // anonymous counter, no personal data
+  id          String   @id @default(cuid())
+  day         DateTime @db.Date
+  resultCount Int
+  @@map("finder_use")
+}
+
+model AuditLog {
+  id       String   @id @default(cuid())
+  actorId  String?
+  action   String
+  entity   String
+  entityId String
+  meta     Json?
+  at       DateTime @default(now())
+  @@map("audit_log")
+}
