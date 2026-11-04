@@ -12,8 +12,9 @@
 /.next/
 /out/
 /build
-/AGENTS.md
-/help.md
+# docs: keep only the root README under version control
+*.md
+!/README.md
 
 # generated
 /lib/generated/
