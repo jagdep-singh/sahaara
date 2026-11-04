@@ -12,7 +12,7 @@
 /.next/
 /out/
 /build
-# docs: keep only the root README under version control
+
 *.md
 !/README.md
 
