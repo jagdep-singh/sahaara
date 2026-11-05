@@ -205,4 +205,57 @@ export const SEED_SCHEMES: SeedScheme[] = [
       },
     ],
   },
+  {
+    code: 'SCH-043',
+    slug: 'widow-remarriage-grant',
+    need: 'PENSION',
+    districts: [],
+    lastCheckedAt: '2026-05-02',
+    rules: [
+      {
+        fact: 'maritalStatus',
+        op: 'eq',
+        value: 'widow',
+        labelHi: 'विधवा',
+        labelEn: 'Widow',
+      },
+      {
+        fact: 'age',
+        op: 'between',
+        value: [18, 45],
+        labelHi: 'उम्र 18 से 45 वर्ष',
+        labelEn: 'Aged 18 to 45',
+      },
+    ],
+    contents: [
+      {
+        lang: 'hi',
+        title: 'विधवा पुनर्विवाह अनुदान',
+        benefit: 'पुनर्विवाह पर एक बार ₹25,000 का अनुदान।',
+        whoCanApply: '18 से 45 वर्ष की विधवा।',
+        documents: [
+          'पति का मृत्यु प्रमाण पत्र',
+          'आधार कार्ड',
+          'बैंक पासबुक',
+          'पुनर्विवाह पंजीकरण प्रमाण पत्र',
+        ],
+        howToApply:
+          'अपने ग्राम पंचायत या नज़दीकी सहायता केंद्र पर आवेदन दें। पुनर्विवाह का प्रमाण और ऊपर लिखे कागज़ात साथ ले जाएँ। फ़ॉर्म जमा करके रसीद संभालकर रखें।',
+      },
+      {
+        lang: 'en',
+        title: 'Widow remarriage grant',
+        benefit: 'One-time ₹25,000 grant on remarriage.',
+        whoCanApply: 'Widow aged 18 to 45.',
+        documents: [
+          "Husband's death certificate",
+          'Aadhaar card',
+          'Bank passbook',
+          'Remarriage registration proof',
+        ],
+        howToApply:
+          'Apply at your gram panchayat or the nearest help centre. Bring the remarriage proof and the documents listed above. Submit the form and keep the receipt.',
+      },
+    ],
+  },
 ];

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Laila } from "next/font/google";
 import localFont from "next/font/local";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
@@ -63,9 +62,6 @@ export default async function SiteLayout({
 
   const dict = getDict(lang);
 
-  const pathname = (await headers()).get("x-pathname") ?? `/${lang}`;
-  const path = pathname.replace(new RegExp(`^/${lang}(?=/|$)`), "") || "/";
-
   return (
     <html
       lang={lang}
@@ -80,7 +76,7 @@ export default async function SiteLayout({
           {dict.common.skip}
         </a>
 
-        <SiteHeader lang={lang} dict={dict} path={path} />
+        <SiteHeader lang={lang} dict={dict} />
 
         <main id="main" className="flex-1">
           {children}

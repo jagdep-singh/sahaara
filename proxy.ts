@@ -37,14 +37,7 @@ export default async function proxy(request: NextRequest) {
   const firstSegment = pathname.split("/")[1] ?? "";
 
   if (isLang(firstSegment)) {
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set("x-pathname", pathname);
-
-    return NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    });
+    return NextResponse.next();
   }
 
   const url = request.nextUrl.clone();

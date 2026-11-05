@@ -42,7 +42,6 @@ export default async function KitPage({
       <div className="flex justify-end">
         <LangToggle
           lang={lang}
-          path="/kit"
           labels={{
             hi: dict.common.lang.hi,
             en: dict.common.lang.en,

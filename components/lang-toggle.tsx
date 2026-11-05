@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import type { Lang } from "@/i18n";
 import { cn } from "@/lib/utils";
@@ -11,7 +14,6 @@ type LangToggleLabels = {
 
 type LangToggleProps = {
   lang: Lang;
-  path?: string;
   labels?: LangToggleLabels;
 };
 
@@ -23,12 +25,13 @@ const defaultLabels: LangToggleLabels = {
 
 const languages = [{ code: "hi" }, { code: "en" }] as const;
 
-function LangToggle({
-  lang,
-  path = "/",
-  labels = defaultLabels,
-}: LangToggleProps) {
-  const suffix = path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
+function LangToggle({ lang, labels = defaultLabels }: LangToggleProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const pathWithoutLang = pathname.replace(/^\/(?:hi|en)(?=\/|$)/, "");
+  const suffix = pathWithoutLang === "" ? "" : pathWithoutLang;
+  const query = searchParams.toString();
+  const search = query ? `?${query}` : "";
   const activeIndex = languages.findIndex((language) => language.code === lang);
 
   return (
@@ -50,7 +53,7 @@ function LangToggle({
         return (
           <Link
             key={language.code}
-            href={`/${language.code}${suffix}`}
+            href={`/${language.code}${suffix}${search}`}
             hrefLang={language.code}
             lang={language.code}
             aria-current={isActive ? "page" : undefined}
@@ -71,4 +74,3 @@ function LangToggle({
 }
 
 export { LangToggle, type Lang };
-//isko change krna h baad me agar time bacha tho

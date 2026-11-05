@@ -5,6 +5,10 @@ type Bucket = {
 
 const buckets = new Map<string, Bucket>();
 
+export function clientIp(forwardedFor: string | null) {
+  return forwardedFor?.split(',')[0]?.trim() || 'unknown';
+}
+
 export function rateLimit(key: string, limit: number, windowMs: number) {
   const now = Date.now();
   const bucket = buckets.get(key);

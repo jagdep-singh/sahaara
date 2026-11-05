@@ -7,7 +7,7 @@ import { z } from "zod";
 
 import { createSession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { rateLimit } from "@/lib/rate-limit";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 export type LoginState = {
   error?: string;
@@ -18,10 +18,6 @@ const loginSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().min(1),
 });
-
-function clientIp(forwardedFor: string | null) {
-  return forwardedFor?.split(",")[0]?.trim() || "unknown";
-}
 
 export async function loginAction(
   _prevState: LoginState,

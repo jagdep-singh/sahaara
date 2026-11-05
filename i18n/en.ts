@@ -103,6 +103,7 @@ export const en: Dictionary = {
     name: "Your name",
     phone: "Mobile number",
     phoneError: "Please enter a valid 10-digit mobile number.",
+    rateLimited: "Too many attempts. Please try again after 10 minutes.",
     consent:
       "I agree that the trust may keep my name and number to call me back.",
     submit: "Request a call-back",
