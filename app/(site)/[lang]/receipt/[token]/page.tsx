@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Card, CardContent } from '@/components/ui/card';
+import { LinkButton } from '@/components/ui/link-button';
 import { Notice } from '@/components/ui/notice';
 import { getDict, type Lang } from '@/i18n';
 import { prisma } from '@/lib/db';
@@ -46,6 +47,12 @@ export default async function ReceiptPage({
                 {receipt.number}
               </dd>
             </div>
+            <div className="flex flex-col gap-1">
+              <dt className="text-base text-muted-foreground">
+                {dict.donate.name}
+              </dt>
+              <dd className="text-lg font-bold">{receipt.donorName}</dd>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1">
                 <dt className="text-base text-muted-foreground">
@@ -68,7 +75,13 @@ export default async function ReceiptPage({
         </CardContent>
       </Card>
 
-      <Notice tone="warning">{dict.receipt.testNote}</Notice>
+      <LinkButton
+        href={`/api/receipts/${token}/pdf`}
+        size="lg"
+        className="w-full sm:w-auto"
+      >
+        {dict.receipt.download}
+      </LinkButton>
 
       {receipt.donation.type === 'MONTHLY' ? (
         <Notice tone="info">{dict.receipt.monthlyNote}</Notice>
