@@ -1,3 +1,5 @@
+export const CONSENT_VERSION = 'v1';
+
 export const DISTRICTS = [
   'Bhopal',
   'Sehore',

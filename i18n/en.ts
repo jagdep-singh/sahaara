@@ -117,6 +117,7 @@ export const en: Dictionary = {
     oneTime: "One time",
     monthly: "Every month",
     amount: "Donation amount",
+    frequency: "Frequency",
     otherAmount: "Other amount (₹)",
     amountError: "Please enter an amount between ₹100 and ₹10,00,000.",
     campaign: "For which cause?",
@@ -127,6 +128,10 @@ export const en: Dictionary = {
     pan: "PAN",
     panHelp: "PAN is needed for the 80G certificate.",
     panError: "PAN is not valid. Example: ABCDE1234F",
+    emailError: "Please enter a valid email.",
+    phoneError: "Please enter a valid 10-digit mobile number.",
+    rateLimited:
+      "Too many attempts. Please try again after 1 minute.",
     consent:
       "I agree that my details are used to issue my receipt and 80G certificate.",
     review: "Please check",

@@ -39,6 +39,8 @@ export const donationInputSchema = z.object({
   idempotencyKey: z.uuid(),
 });
 
+export type DonationInput = z.infer<typeof donationInputSchema>;
+
 export const callbackInputSchema = z.object({
   name: nameSchema,
   phone: mobileSchema,
