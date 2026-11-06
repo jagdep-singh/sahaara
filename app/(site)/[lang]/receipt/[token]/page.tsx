@@ -43,7 +43,7 @@ export default async function ReceiptPage({
               <dt className="text-base text-muted-foreground">
                 {dict.receipt.number}
               </dt>
-              <dd className="text-3xl font-bold break-words">
+              <dd className="text-3xl font-bold wrap-break-words">
                 {receipt.number}
               </dd>
             </div>

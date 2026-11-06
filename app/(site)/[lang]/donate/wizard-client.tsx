@@ -301,7 +301,7 @@ export function DonateWizard({
                     key={value}
                     className={cn(
                       "flex min-h-14 cursor-pointer items-center justify-center rounded-lg border-2 border-input bg-card p-3 font-bold",
-                      "has-[:focus-visible]:ring-3 has-[:focus-visible]:ring-ring/50",
+                      "has-focus-visible:ring-3 has-focus-visible:ring-ring/50",
                       preset === value &&
                         "border-primary bg-primary/5"
                     )}
