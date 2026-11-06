@@ -64,3 +64,10 @@ export async function requireAdmin(): Promise<Session> {
   if (!session || session.role !== 'ADMIN') redirect('/admin/login');
   return session;
 }
+
+export async function assertAdminOrThrow(): Promise<Session> {
+  const session = await getSession();
+  if (!session) throw new Error('UNAUTHENTICATED');
+  if (session.role !== 'ADMIN') throw new Error('FORBIDDEN');
+  return session;
+}

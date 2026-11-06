@@ -8,8 +8,7 @@ export type Lang = "hi" | "en";
 
 export const LANGS = ["hi", "en"] as const;
 
-export const DEFAULT_LANG: Lang =
-  process.env.NODE_ENV === "production" ? "hi" : "en";
+export const DEFAULT_LANG: Lang = "hi";
 
 export function isLang(value: string | undefined): value is Lang {
   return value === "hi" || value === "en";

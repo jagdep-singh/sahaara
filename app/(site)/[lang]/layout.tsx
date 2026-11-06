@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Laila } from "next/font/google";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
@@ -10,9 +9,11 @@ import { getDict, isLang } from "@/i18n";
 
 import "../../globals.css";
 
-const deva = Laila({
-  subsets: ["devanagari", "latin"],
-  weight: ["400", "500", "700"],
+const deva = localFont({
+  src: [
+    { path: "../../../assets/fonts/NotoSansDevanagari-Regular.ttf", weight: "400" },
+    { path: "../../../assets/fonts/NotoSansDevanagari-Bold.ttf", weight: "700" },
+  ],
   display: "swap",
   variable: "--font-deva",
 });
