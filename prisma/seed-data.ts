@@ -46,7 +46,7 @@ export type SeedScheme = {
 export const HELP_CENTRES = DISTRICTS.map((district) => ({
   id: `help-centre-${district.toLowerCase()}`,
   district,
-  name: `Company A Help Centre, ${district}`,
+  name: `Sahaara Help Centre, ${district}`,
   address: `Placeholder address, ${district}`,
   phone: '000-0000000',
 }));

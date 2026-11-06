@@ -52,6 +52,7 @@ type DonationInput = {
   amountPaise?: number;
   type?: DonationType;
   name?: string;
+  pan?: string;
   donorId?: string;
   campaignId?: string;
   paidAt?: Date;
@@ -63,7 +64,12 @@ async function makeDonation(
 ) {
   const donorId =
     overrides.donorId ??
-    (await makeDonor({ name: overrides.name })).id;
+    (
+      await makeDonor({
+        name: overrides.name,
+        pan: overrides.pan,
+      })
+    ).id;
 
   return prisma.donation.create({
     data: {
