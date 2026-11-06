@@ -162,4 +162,20 @@ export const en: Dictionary = {
     deletion:
       "To have your data removed, tell the helpline. Receipt records are kept for accounting rules.",
   },
+  campaign: {
+    title: "Campaign",
+    donate: "Donate to this campaign",
+    notFound: "This campaign was not found.",
+  },
+  account: {
+    title: "Your account",
+    login: "Donor login",
+    email: "Email",
+    code: "Demo code",
+    hint: "The demo code is in the README.",
+    submit: "Log in",
+    history: "Your donations",
+    empty: "No donations found yet.",
+    download: "Download receipt",
+  },
 };
