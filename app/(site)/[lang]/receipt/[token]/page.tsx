@@ -38,8 +38,8 @@ export default async function ReceiptPage({
 
       <Card>
         <CardContent>
-          <dl className="flex flex-col gap-5">
-            <div className="flex flex-col gap-1">
+          <dl className="grid gap-5 sm:grid-cols-2">
+            <div className="flex flex-col gap-1 sm:col-span-2">
               <dt className="text-base text-muted-foreground">
                 {dict.receipt.number}
               </dt>
@@ -47,29 +47,27 @@ export default async function ReceiptPage({
                 {receipt.number}
               </dd>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 sm:col-span-2">
               <dt className="text-base text-muted-foreground">
                 {dict.donate.name}
               </dt>
               <dd className="text-lg font-bold">{receipt.donorName}</dd>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="flex flex-col gap-1">
-                <dt className="text-base text-muted-foreground">
-                  {dict.receipt.amount}
-                </dt>
-                <dd className="text-lg font-bold">
-                  {formatINR(receipt.amountPaise)}
-                </dd>
-              </div>
-              <div className="flex flex-col gap-1">
-                <dt className="text-base text-muted-foreground">
-                  {dict.receipt.date}
-                </dt>
-                <dd className="text-lg font-bold">
-                  {formatDate(receipt.issuedAt, lang)}
-                </dd>
-              </div>
+            <div className="flex flex-col gap-1">
+              <dt className="text-base text-muted-foreground">
+                {dict.receipt.amount}
+              </dt>
+              <dd className="text-lg font-bold">
+                {formatINR(receipt.amountPaise)}
+              </dd>
+            </div>
+            <div className="flex flex-col gap-1">
+              <dt className="text-base text-muted-foreground">
+                {dict.receipt.date}
+              </dt>
+              <dd className="text-lg font-bold">
+                {formatDate(receipt.issuedAt, lang)}
+              </dd>
             </div>
           </dl>
         </CardContent>

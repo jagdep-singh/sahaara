@@ -236,6 +236,7 @@ export function DonateWizard({
         <div
           className="h-2 overflow-hidden rounded-full bg-secondary"
           role="progressbar"
+          aria-label={fmt(dict.donate.stepOf, { n: step + 1 })}
           aria-valuemin={1}
           aria-valuemax={3}
           aria-valuenow={step + 1}

@@ -55,7 +55,7 @@
   --brand-accent: #b45309;
   --brand-accent-foreground: #ffffff;
   --radius: 1rem;
-  --font-body: var(--font-deva), var(--font-satoshi), system-ui, sans-serif;
+  --font-body: var(--font-deva), system-ui, sans-serif;
 }
 
 html:lang(en) {

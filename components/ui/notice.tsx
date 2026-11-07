@@ -45,7 +45,9 @@ function Notice({
       <Icon aria-hidden="true" />
       {title ? <AlertTitle>{title}</AlertTitle> : null}
       <AlertDescription
-        className={tone === "error" ? "text-destructive" : undefined}
+        className={
+          tone === "error" ? "text-destructive" : "text-foreground"
+        }
       >
         {children}
       </AlertDescription>

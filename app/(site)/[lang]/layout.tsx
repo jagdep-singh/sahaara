@@ -11,10 +11,11 @@ import "../../globals.css";
 
 const deva = localFont({
   src: [
-    { path: "../../../assets/fonts/NotoSansDevanagari-Regular.ttf", weight: "400" },
-    { path: "../../../assets/fonts/NotoSansDevanagari-Bold.ttf", weight: "700" },
+    { path: "../../../assets/fonts/NotoSansDevanagari-Regular.woff2", weight: "400" },
+    { path: "../../../assets/fonts/NotoSansDevanagari-Bold.woff2", weight: "700" },
   ],
   display: "swap",
+  preload: false,
   variable: "--font-deva",
 });
 
@@ -37,6 +38,7 @@ const satoshi = localFont({
     },
   ],
   display: "swap",
+  preload: false,
   variable: "--font-satoshi",
 });
 
