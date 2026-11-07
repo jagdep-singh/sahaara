@@ -30,6 +30,9 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 
+# project documentation and generated evidence
+/docs/
+
 # env files (commit .env.example only)
 .env*
 !.env.example

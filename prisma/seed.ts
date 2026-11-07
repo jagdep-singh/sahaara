@@ -136,8 +136,18 @@ async function main() {
       create: { code, slug, need, districts: [...districts], rules, sourceUrl: `https://example.org/official-notice/${code}`, lastCheckedAt: new Date(`${lastCheckedAt}T00:00:00.000Z`), isIllustrative: true, publishedAt: isDraft ? null : publishedAt },
     });
     const englishTitle = titleHi.replace('वृद्ध महिला पेंशन', "Women's old-age pension").replace('अलग रह रही महिलाओं की सहायता', 'Support for separated women').replace('विधवा पुनर्विवाह अनुदान', 'Widow remarriage grant').replace('स्वयं सहायता समूह शुरुआत अनुदान', 'SHG start-up grant').replace('कौशल प्रशिक्षण सहायता', 'Skill training stipend').replace('छोटे कारोबार की सहायता', 'Micro-enterprise subsidy').replace('अस्पताल प्रसव प्रोत्साहन', 'Hospital delivery incentive').replace('महिला स्वास्थ्य जाँच शिविर', "Free women's health check-up camps").replace('बालिका उच्च शिक्षा छात्रवृत्ति', "Girls' higher-education scholarship");
+    const whoHi: Record<string, string> = {
+      'SCH-041': '60 से 120 वर्ष की महिला, जिसके पास BPL कार्ड है।',
+      'SCH-042': '18 से 59 वर्ष की अलग रह रही महिला, जिसके पास BPL कार्ड है।',
+      'SCH-051': 'पंजीकृत स्वयं सहायता समूह की सदस्य।',
+      'SCH-052': '18 से 40 वर्ष की महिला।',
+      'SCH-053': '18 से 55 वर्ष की महिला।',
+      'SCH-061': 'गर्भवती महिला।',
+      'SCH-062': '18 वर्ष या उससे अधिक उम्र की महिला।',
+      'SCH-071': '17 से 25 वर्ष की छात्रा, जिसके पास BPL कार्ड है।',
+    };
     const content = [
-      { lang: 'hi' as const, title: titleHi, benefit: benefitHi, whoCanApply: whoEn.replace('Women', 'महिलाएँ'), documents: ['आधार कार्ड', 'बैंक पासबुक', 'पहचान प्रमाण'], howToApply: 'नज़दीकी सहायता केंद्र पर जाएँ और ऊपर लिखे कागज़ात साथ ले जाएँ।' },
+      { lang: 'hi' as const, title: titleHi, benefit: benefitHi, whoCanApply: whoHi[code], documents: ['आधार कार्ड', 'बैंक पासबुक', 'पहचान प्रमाण'], howToApply: 'नज़दीकी सहायता केंद्र पर जाएँ और ऊपर लिखे कागज़ात साथ ले जाएँ।' },
       { lang: 'en' as const, title: englishTitle, benefit: benefitHi, whoCanApply: whoEn, documents: ['Aadhaar card', 'Bank passbook', 'Identity proof'], howToApply: 'Visit the nearest help centre with the documents listed above.' },
     ];
     for (const item of content) await prisma.schemeContent.upsert({ where: { schemeId_lang: { schemeId: scheme.id, lang: item.lang } }, update: isDraft ? { ...item, status: 'DRAFT', origin: 'AI_DRAFT', aiWarnings: [{ code: 'NUMBER_MISSING', message: 'The notice contains 6000 but the draft does not.' }], approvedById: null, approvedAt: null } : { ...item, status: 'APPROVED', origin: 'HUMAN', approvedById: admin.id, approvedAt: publishedAt }, create: { schemeId: scheme.id, ...item, status: isDraft ? 'DRAFT' : 'APPROVED', origin: isDraft ? 'AI_DRAFT' : 'HUMAN', aiWarnings: isDraft ? [{ code: 'NUMBER_MISSING', message: 'The notice contains 6000 but the draft does not.' }] : undefined, approvedById: isDraft ? null : admin.id, approvedAt: isDraft ? null : publishedAt } });
